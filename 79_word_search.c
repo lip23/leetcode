@@ -4,9 +4,11 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 bool dfs(int i, int j, char** board, int r, int c, char* d) {
+  //printf("i=%d, j=%d\n", i, j);
   if (*d == 0) {
     return true;
   }
@@ -27,17 +29,31 @@ bool dfs(int i, int j, char** board, int r, int c, char* d) {
 }
 
 bool exist(char** board, int boardRowSize, int boardColSize, char* word) {
-  return dfs(0, 0, board, boardRowSize, boardColSize, word);
+  int i = 0, j = 0;
+  for (i = 0; i < boardRowSize; ++i) {
+    for (j = 0; j < boardColSize; ++j) {
+      if (dfs(i, j, board, boardRowSize, boardColSize, word)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 int main(int argc, char** argv) {
-  char board[3][4] = {{'A','B','C','E'},
-                      {'S','F','C','S'},
-                      {'A','D','E','E'}};
-  int r = 3;
-  int c = 4;
+  //char* board[] = {"ABCE", "SFCS", "ADEE"};
+  char* board[] = {"ab", "cd"};
+  char* b[2];
+  int r = 2;
+  int c = 2;
+  int i = 0;
+  while (i < r) {
+    b[i] = malloc(c + 1);
+    strcpy(b[i], board[i]);
+    ++i;
+  }
   char* w = argv[1];
-  if (exist(board, r, c, w)) {
+  if (exist(b, r, c, w)) {
     printf("true\n");
   } else {
     printf("false\n");
