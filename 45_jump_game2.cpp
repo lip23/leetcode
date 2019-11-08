@@ -32,3 +32,28 @@ public:
         return st.top().second;
     }
 };
+
+class Solution {
+public:
+    // 解题思路：
+    // 维护一个能够进行jump尝试的点集合[beg, end), 从集合起点beg开始不断继续jump尝试并更新集合
+    // 当能jump到终点时，则停止
+    // 同时还用记录每次jump能到达的最远点，这样能计算当前beg时几次jump到达的
+
+    int jump(vector<int>& nums) {
+        int beg = 0, end = 1;  // [beg, end) 表示当前所有能继续jump的点，init时只有起点0
+        int lever = 0; // 当前jump的次数
+        int lever_end = 1;  // 从起点(0)开始jump lever次能到达的最远的点
+        while (end < nums.size()) {  // 如果没有到达终点，就从beg开始继续jump
+            if (beg >= lever_end) {  // 如果从beg已经达到了上次jump的最远点，则表示beg属于第lever + 1次jump
+                ++lever;
+                lever_end = end;
+            }
+            if (beg + nums[beg] >= end) {
+                end = beg + nums[beg] + 1;
+            }
+            ++beg;
+        }
+        return end > lever_end ? ++lever : lever;
+    }
+};
