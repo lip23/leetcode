@@ -26,3 +26,22 @@ public:
         return ret;
     }
 };
+
+class Solution {
+public:
+    // 解题思路：
+    // http://www.cs.utexas.edu/~moore/best-ideas/
+    int majorityElement(vector<int>& nums) {
+        int count = 0;
+        int candidate = 0;
+        for (const auto num : nums) {
+            if (0 == count) {
+                candidate = num;
+                count = 1;
+            } else {
+                num == candidate ? ++count : --count;
+            }
+        }
+        return candidate;
+    }
+};
