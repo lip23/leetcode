@@ -24,3 +24,27 @@ public:
         return digits.empty() ? vector<string>() : ret;
     }
 };
+
+class Solution {
+public:
+    // 解题思路：
+    // dfs
+    void dfs(const vector<string>& num_2_alphs, const string& digits, const int cur,
+             string& alphs, vector<string>* ans) {
+        if (cur == digits.length()) {
+            ans->push_back(alphs);
+            return;
+        }
+        for (const auto alph : num_2_alphs[digits[cur] - '2']) {
+            dfs(num_2_alphs, digits, cur + 1, alphs.append(1, alph), ans);
+            alphs.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        vector<string> num_2_alphs = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> ret;
+        string alphs;
+        dfs(num_2_alphs, digits, 0, alphs, &ret);
+        return digits.empty() ? vector<string>() : ret;
+    }
+};
