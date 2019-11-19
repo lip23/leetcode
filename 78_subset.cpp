@@ -21,3 +21,25 @@ public:
         return ret;
     }
 };
+
+class Solution {
+public:
+    // 解题思路：
+    // dfs
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ret;
+        vector<int> cur_set;
+        dfs(0, nums, cur_set, ret);
+        return ret;
+    }
+    void dfs(int cur, const vector<int>& nums, vector<int>& cur_set, vector<vector<int>>& ans) {
+        if (cur == nums.size()) {
+            ans.emplace_back(cur_set);
+            return;
+        }
+        dfs(cur + 1, nums, cur_set, ans);
+        cur_set.push_back(nums[cur]);
+        dfs(cur + 1, nums, cur_set, ans);
+        cur_set.pop_back();
+    }
+};
