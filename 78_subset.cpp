@@ -25,7 +25,7 @@ public:
 class Solution {
 public:
     // 解题思路：
-    // dfs
+    // dfs, 每次递归中都分别计算包含当前元素和不包含当前元素的情况
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> ret;
         vector<int> cur_set;

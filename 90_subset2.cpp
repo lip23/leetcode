@@ -31,3 +31,35 @@ public:
         return ret;
     }
 };
+
+class Solution {
+public:
+    // 解题思路：
+    // dfs
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ret;
+        vector<int> cur_set;
+        dfs(0, nums, cur_set, ret);
+        return ret;
+    }
+    void dfs(const int cur, const vector<int>& nums, vector<int>& cur_set, vector<vector<int>>& ans) {
+        if (cur == nums.size()) {
+            ans.emplace_back(cur_set);
+            return;
+        }
+        if (cur > nums.size()) {
+            return;
+        }
+        int end = cur + 1;
+        while (end < nums.size() && nums[end] == nums[cur]) {
+            ++end;
+        }
+        for (int i = cur; i < end; ++i) {
+            cur_set.push_back(nums[i]);
+            dfs(end, nums, cur_set, ans);
+        }
+        cur_set.erase(cur_set.end() - (end - cur), cur_set.end());
+        dfs(end, nums, cur_set, ans);
+    }
+};
