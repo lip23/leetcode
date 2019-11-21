@@ -40,3 +40,31 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    // 解题思路：
+    // dfs, 每次选一个元素放入集合中
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> cur_set;
+        sort(candidates.begin(), candidates.end());
+        dfs(0, target, candidates, cur_set, ans);
+        return ans;
+    }
+    void dfs(const int cur, const int target, const vector<int>& candidates,
+             vector<int>& cur_set, vector<vector<int>>& ans) {
+        if (target == 0) {
+            ans.emplace_back(cur_set);
+            return;
+        }
+        for (int i = cur; i < candidates.size() && target >= candidates[i]; ++i) {
+            if (i == cur || candidates[i] != candidates[i - 1]) {
+                cur_set.push_back(candidates[i]);
+                dfs(i + 1, target - candidates[i], candidates, cur_set, ans);
+                cur_set.pop_back();
+            }
+        }
+    }
+};
