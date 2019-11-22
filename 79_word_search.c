@@ -40,23 +40,37 @@ bool exist(char** board, int boardRowSize, int boardColSize, char* word) {
   return false;
 }
 
-int main(int argc, char** argv) {
-  //char* board[] = {"ABCE", "SFCS", "ADEE"};
-  char* board[] = {"ab", "cd"};
-  char* b[2];
-  int r = 2;
-  int c = 2;
-  int i = 0;
-  while (i < r) {
-    b[i] = malloc(c + 1);
-    strcpy(b[i], board[i]);
-    ++i;
-  }
-  char* w = argv[1];
-  if (exist(b, r, c, w)) {
-    printf("true\n");
-  } else {
-    printf("false\n");
-  }
-  return 0;
-}
+
+class Solution {
+public:
+    // solution:
+    // dfs, 以棋盘中每个元素为起点开始进行搜索
+    // 先判断当前点和当前元素是否相同，如果相同先将当前点置为0，表示当前点已经走过（防止当前点被重复计算）,
+    // 然后再继续往4个方向进行搜索，搜索结束后要将当前点恢复为原值
+    bool exist(vector<vector<char>>& board, string word) {
+        for (int i = 0; i < board.size(); ++i) {
+            for (int j = 0; j < board[i].size(); ++j) {
+                if (dfs(i, j, 0, word, board)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool dfs(const int i, const int j, const int cur, const string& word, vector<vector<char>>& board) {
+        if (cur == word.length()) {
+            return true;
+        }
+        if (i >= 0 && i < board.size() && j >= 0 && j < board[i].size() && board[i][j] == word[cur]) {
+            board[i][j] = 0;
+            if (dfs(i + 1, j, cur + 1, word, board) ||
+                dfs(i - 1, j, cur + 1, word, board) ||
+                dfs(i, j + 1, cur + 1, word, board) ||
+                dfs(i, j - 1, cur + 1, word, board)) {
+                    return true;
+            }
+            board[i][j] = word[cur];
+        }
+        return false;
+    }
+};
