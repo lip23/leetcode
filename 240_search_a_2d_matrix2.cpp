@@ -35,3 +35,25 @@ public:
         }
     }
 };
+oclass Solution {
+public:
+    // 该矩阵为杨氏矩阵
+    // 查找时可从右上角开始，每次查找可排除一行或一列
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix.front().empty()) {
+            return false;
+        }
+        int row = 0;
+        int col = matrix.front().size() - 1;
+        while (row < matrix.size() && col >= 0) {
+            if (target < matrix[row][col]) {
+                --col;
+            } else if (target > matrix[row][col]) {
+                ++row;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+};
