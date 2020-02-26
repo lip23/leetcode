@@ -39,3 +39,35 @@ public:
         return ans.next;
     }
 };
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    // 两两合并
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode ans(0);
+        for (auto* list : lists) {
+            ListNode ml(0);
+            ListNode* p1 = list, *p2 = ans.next, *pre = &ml;
+            while (p1 && p2) {
+                if (p1->val < p2->val) {
+                    pre = pre->next = p1;
+                    p1 = p1->next;
+                } else {
+                    pre = pre->next = p2;
+                    p2 = p2->next;
+                }
+            }
+            nullptr != p1 ? pre->next = p1 : pre->next = p2;
+            ans = ml;
+        }
+        return ans.next;
+    }
+};
