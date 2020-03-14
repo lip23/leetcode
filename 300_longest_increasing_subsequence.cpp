@@ -53,3 +53,33 @@ public:
         return lis.size();
     }
 };
+
+class Solution {
+public:
+    // 构造数组lis，lis[i]表示当最长递增子序列长度为i+1时，最后一个元素可以取的最小值
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> lis;
+        for (const auto& num : nums) {
+            if (lis.empty() || lis.back() < num) {
+                lis.push_back(num);
+                continue;
+            }
+            int beg = 0, end = lis.size() - 1;
+            while (beg < end) {
+                int mid = beg + end >> 1;
+                // 找第一个大于num的数, lis[mid] > num, 所以mid不应被舍弃
+                if (num < lis[mid]) {
+                    end = mid;
+                } else if (num > lis[mid]){
+                    beg = mid + 1;
+                } else {
+                    beg = mid;
+                    break;
+                }
+            }
+            lis[beg] = num;
+        }
+
+        return lis.size();
+    }
+};
